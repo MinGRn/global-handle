@@ -1,10 +1,15 @@
+import com.mingrn.common.global.annotation.ParamsCheck;
+import com.mingrn.common.global.annotation.ParamsIsNotNull;
 import com.mingrn.common.global.exception.NotLoginException;
 import com.mingrn.common.global.result.ResponseMsgUtil;
 import com.mingrn.common.global.result.Result;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,13 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlobalHandleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GlobalHandleApplication.class, args);
+		new SpringApplicationBuilder(GlobalHandleApplication.class).web(WebApplicationType.SERVLET).run(args);
 	}
 
 
+	@ParamsCheck
 	@GetMapping("/notLoginException")
-	public Result notLoginException() {
-		notLoginExceptionTest();
+	public Result notLoginException(@ParamsIsNotNull @RequestParam String name,
+									@RequestParam(required = false) String value) {
 		return ResponseMsgUtil.success("这是成功请求示例");
 	}
 
