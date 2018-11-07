@@ -81,3 +81,35 @@ public static void main(String[] args) {
 	SpringApplication.run(SpringcloudEurekaApplication.class, args);
 }
 ```
+
+具体使用示例见 [GlobalHandleApplication](src/test/java/GlobalHandleApplication.java) 
+
+----
+
+# 全局异常处理说明
+
+全局异常处理类继承至 `org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController`，实例：
+
+```java
+import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
+
+@RestController
+@RequestMapping
+@ControllerAdvice
+public class GlobalExceptionHandler extends AbstractErrorController {
+
+	public GlobalExceptionHandler(ErrorAttributes errorAttributes) {
+		super(errorAttributes);
+	}
+
+
+	@Override
+	public String getErrorPath() {
+		return null;
+	}
+}
+```
+
+当前拦截异常范围如下所示：
+
+`404 错误`、`500 错误`、`未登录异常`、`参数不能为空异常` ...
