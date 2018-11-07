@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
-//@RequestMapping
-//@SpringBootApplication
+@RestController
+@RequestMapping
+@SpringBootApplication
 public class GlobalHandleApplication {
 
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		SpringApplication.run(GlobalHandleApplication.class, args);
 	}
 
@@ -33,6 +33,6 @@ public class GlobalHandleApplication {
 
 	private void notLoginExceptionTest() {
 		throw new NotLoginException();
-	}*/
+	}
 
 }
