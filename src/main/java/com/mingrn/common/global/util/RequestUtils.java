@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author MinGRn <br > MinGRn97@gmail.com
  */
-public class RequestUtil {
+public class RequestUtils {
 
-	private RequestUtil() {
+	private RequestUtils() {
 	}
 
 	private static final String UNKNOWN_IP = "unknown";
