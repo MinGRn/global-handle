@@ -53,7 +53,22 @@ public enum ResponseStatusCodeEnum {
 	/**
 	 * 查询结果为空状态码
 	 */
-	RESULT_CODE_RESULT_IS_EMPTY(ResponseStatusConstant.REQUEST_RESULT_IS_EMPTY, "result is empty");
+	RESULT_CODE_RESULT_IS_EMPTY(ResponseStatusConstant.REQUEST_RESULT_IS_EMPTY, "result is empty"),
+
+	/**
+	 * 404状态码
+	 */
+	RESULT_CODE_NOT_FOUND(ResponseStatusConstant.REQUEST_NOT_FOUND, "request not found"),
+
+	/**
+	 * 500 错误状态码
+	 */
+	RESULT_CODE_INTERNAL_SERVER_ERR(ResponseStatusConstant.REQUEST_INTERNAL_SERVER_ERR, "request internal server err"),
+
+	/**
+	 * 业务异常状态码
+	 */
+	RESULT_CODE_SERVICE_EXCEPTION(ResponseStatusConstant.REQUEST_SERVICE_EXCEPTION, "service exception");
 
 
 	/**
