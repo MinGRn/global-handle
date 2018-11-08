@@ -9,8 +9,20 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
  * @author MinGRn
  */
 public class Result<T> {
+
+	/**
+	 * 响应码
+	 */
 	private Integer resCode;
+
+	/**
+	 * 响应信息
+	 */
 	private String resMsg;
+
+	/**
+	 * 数据
+	 */
 	private T data;
 
 	Result() {
