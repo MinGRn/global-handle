@@ -53,10 +53,17 @@ public class ResponseMsgUtil {
 
 
 	/**
-	 * 非法请求
+	 * 非法[参数|访问]请求
 	 */
 	public static <T> Result<T> illegalRequest() {
-		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getCode(), ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getMsg(), null);
+		return illegalRequest(ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getMsg());
+	}
+
+	/**
+	 * 非法[参数|访问]请求
+	 */
+	public static <T> Result<T> illegalRequest(String msg) {
+		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getCode(), msg, null);
 	}
 
 	/**
@@ -92,7 +99,7 @@ public class ResponseMsgUtil {
 	/**
 	 * 无操作权限
 	 */
-	public static Result noauthorized() {
+	public static Result noAuthorized() {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getCode(), ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getMsg(), null);
 	}
 
@@ -101,5 +108,26 @@ public class ResponseMsgUtil {
 	 */
 	public static Result resultIsEmptyOrNotExist() {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_RESULT_IS_EMPTY.getCode(), ResponseStatusCodeEnum.RESULT_CODE_RESULT_IS_EMPTY.getMsg(), null);
+	}
+
+	/**
+	 * 404
+	 */
+	public static Result requestNotFound() {
+		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NOT_FOUND.getCode(), ResponseStatusCodeEnum.RESULT_CODE_NOT_FOUND.getMsg(), null);
+	}
+
+	/**
+	 * 500 错误
+	 */
+	public static Result internalServerErr() {
+		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_INTERNAL_SERVER_ERR.getCode(), ResponseStatusCodeEnum.RESULT_CODE_INTERNAL_SERVER_ERR.getMsg(), null);
+	}
+
+	/**
+	 * 业务异常
+	 */
+	public static Result serviceException() {
+		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_SERVICE_EXCEPTION.getCode(), ResponseStatusCodeEnum.RESULT_CODE_SERVICE_EXCEPTION.getMsg(), null);
 	}
 }
