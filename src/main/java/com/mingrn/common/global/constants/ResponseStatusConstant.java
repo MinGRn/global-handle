@@ -53,4 +53,20 @@ public final class ResponseStatusConstant {
 	public static final int REQUEST_RESULT_IS_EMPTY = 10006;
 
 
+	/**
+	 * 404 错误
+	 */
+	public static final int REQUEST_NOT_FOUND = 20000;
+
+	/**
+	 * 500 错误,内部服务器异常
+	 */
+	public static final int REQUEST_INTERNAL_SERVER_ERR = 20001;
+
+	/**
+	 * 业务异常
+	 */
+	public static final int REQUEST_SERVICE_EXCEPTION = 20002;
+
+
 }
