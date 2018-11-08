@@ -4,7 +4,7 @@ import com.mingrn.common.global.exception.NotLoginException;
 import com.mingrn.common.global.exception.ParamIsNotNullException;
 import com.mingrn.common.global.result.ResponseMsgUtil;
 import com.mingrn.common.global.result.Result;
-import com.mingrn.common.global.util.RequestUtil;
+import com.mingrn.common.global.util.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public Result noHandlerFoundException(HttpServletRequest request, HttpServletResponse response, Exception e) {
-		LOGGER.error("!!! request uri:{} from {} server exception:{}", request.getRequestURI(), RequestUtil.getIpAddress(request), e);
+		LOGGER.error("!!! request uri:{} from {} server exception:{}", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.requestNotFound();
 	}
 
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public Result serverError(HttpServletRequest request, HttpServletResponse response, Exception e) {
-		LOGGER.error("!!! request uri:{} from {} server exception:{}", request.getRequestURI(), RequestUtil.getIpAddress(request), e);
+		LOGGER.error("!!! request uri:{} from {} server exception:{}", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.internalServerErr();
 	}
 
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	 */
 	@ExceptionHandler(NotLoginException.class)
 	public Result notLoginException(HttpServletRequest request, HttpServletResponse response, Exception e) {
-		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtil.getIpAddress(request), e);
+		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.notLogin();
 	}
 
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	 */
 	@ExceptionHandler(ParamIsNotNullException.class)
 	public Result paramIsNotNullException(HttpServletRequest request, HttpServletResponse response, Exception e) {
-		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtil.getIpAddress(request), e);
+		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.paramsCanNotEmpty();
 	}
 
@@ -96,7 +96,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	 */
 	@ExceptionHandler({IllegalArgumentException.class,IllegalAccessException.class})
 	public Result illegalRequest(HttpServletRequest request, HttpServletResponse response, Exception e){
-		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtil.getIpAddress(request), e);
+		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.illegalRequest();
 	}
 
