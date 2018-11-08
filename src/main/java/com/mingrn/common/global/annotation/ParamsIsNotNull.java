@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * 参数不能为 NULL 或 '' 注解。
- * 该注解与 {@link ParamsCheck} 注解同时使用。<code>@ParamsCheck</code> 作用于方法,
+ * 该注解与 {@link Checked} 注解同时使用。<code>@ParamsCheck</code> 作用于方法,
  * 用于标识检查该方法。
  * <code>@ParamsIsNotNull</code> 注解作用于方法参数,用于表示该方法不能为 NULL 或 ''。
  * 当请求进入方法体之前会在 {@link com.mingrn.common.global.aspect.ParamsIsNotNullAspect}
@@ -17,7 +17,7 @@ import java.lang.annotation.*;
  * </p>
  * 使用示例见 README.md
  * </p>
- * 注意:该注解一定要与{@link ParamsCheck} 注解同时使用,否则将不起作用。
+ * 注意:该注解一定要与{@link Checked} 注解同时使用,否则将不起作用。
  *
  * @author MinGRn <br > MinGRn97@gmail.com
  * @date 07/11/2018 20:24

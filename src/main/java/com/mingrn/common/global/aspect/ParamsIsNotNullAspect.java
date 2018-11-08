@@ -42,7 +42,7 @@ public class ParamsIsNotNullAspect {
 	/**
 	 * 切点
 	 */
-	@Pointcut("@annotation(com.mingrn.common.global.annotation.ParamsCheck)")
+	@Pointcut("@annotation(com.mingrn.common.global.annotation.Checked)")
 	public void paramsIsNotNullAspect() {
 	}
 
