@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Order(6)
 @Component
-public class ResultCheckedAspect {
+public class CheckedAspect {
 
 	/**
 	 * 切点
