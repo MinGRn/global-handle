@@ -8,20 +8,47 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.3.RELEASE</version>
-		<relativePath/>
-	</parent>
-
 	<properties>
+		<!--私服发布端口-->
+		<deploy.port>9000</deploy.port>
+		<!--私服发布主机-->
+		<deploy.host>localhost</deploy.host>
+		<!--JDK Version-->
 		<java.version>1.8</java.version>
+		<!--Fast Json Version-->
 		<fastjson.version>1.2.47</fastjson.version>
+		<!--Common.lang3 Version-->
 		<common.lang3.version>3.8</common.lang3.version>
+		<!--Spring Boot Version-->
+		<spring-boot.version>2.0.3.RELEASE</spring-boot.version>
+		<!--Spring Cloud Version-->
+		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
+		<!--Project Build Source Encoding-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!--Project Output Encoding-->
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<!-- Import dependency management from Spring Cloud -->
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -39,8 +66,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-
-
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
@@ -58,10 +83,10 @@
 	<build>
 		<plugins>
 			<!--Maven插件-->
-			<!--<plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>-->
+			</plugin>
 			<!--JDK编译版本-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -93,12 +118,12 @@
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
-			<url>http://192.168.1.6:9000/nexus/content/repositories/releases/</url>
+			<url>http://${deploy.host}:${deploy.port}/nexus/content/repositories/releases/</url>
 		</repository>
 		<!--快照版本，发布快照版本不使用该标签会报权限问题-->
 		<snapshotRepository>
 			<id>snapshots</id>
-			<url>http://192.168.1.6:9000/nexus/content/repositories/snapshots/</url>
+			<url>http://${deploy.host}:${deploy.port}/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
