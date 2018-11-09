@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 判断对象是否为空或null工具类
+ * Object工具类
  *
  * @author MinGRn <br > MinGRn97@gmail.com
  */
