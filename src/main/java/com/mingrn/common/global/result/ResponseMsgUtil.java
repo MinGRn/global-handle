@@ -27,7 +27,7 @@ public class ResponseMsgUtil {
 	 * 请求失败
 	 */
 	public static <T> Result<T> failure() {
-		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_FAILURE.getCode(), ResponseStatusCodeEnum.RESULT_CODE_FAILURE.getMsg(), null);
+		return failure(ResponseStatusCodeEnum.RESULT_CODE_FAILURE.getMsg());
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class ResponseMsgUtil {
 	 * 请求成功
 	 */
 	public static <T> Result<T> success(T data) {
-		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_SUCCESS.getCode(), ResponseStatusCodeEnum.RESULT_CODE_SUCCESS.getMsg(), data);
+		return success(ResponseStatusCodeEnum.RESULT_CODE_SUCCESS.getMsg(), data);
 	}
 
 	/**
@@ -53,14 +53,14 @@ public class ResponseMsgUtil {
 
 
 	/**
-	 * 非法[参数|访问]请求
+	 * 非法请求
 	 */
 	public static <T> Result<T> illegalRequest() {
 		return illegalRequest(ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getMsg());
 	}
 
 	/**
-	 * 非法[参数|访问]请求
+	 * 非法请求
 	 */
 	public static <T> Result<T> illegalRequest(String msg) {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getCode(), msg, null);
@@ -70,7 +70,14 @@ public class ResponseMsgUtil {
 	 * 未登录
 	 */
 	public static Result notLogin() {
-		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NOT_LOGIN.getCode(), ResponseStatusCodeEnum.RESULT_CODE_NOT_LOGIN.getMsg(), null);
+		return notLogin(ResponseStatusCodeEnum.RESULT_CODE_NOT_LOGIN.getMsg());
+	}
+
+	/**
+	 * 未登录
+	 */
+	public static Result notLogin(String meg) {
+		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NOT_LOGIN.getCode(), meg, null);
 	}
 
 
@@ -84,7 +91,7 @@ public class ResponseMsgUtil {
 	/**
 	 * 密码错误次数已达上限
 	 */
-	public static Result maxPasswordErrorLimit() {
+	public static Result passwordErrorLimit() {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_PASSWORD_ERROR_LIMIT.getCode(), ResponseStatusCodeEnum.RESULT_CODE_PASSWORD_ERROR_LIMIT.getMsg(), null);
 	}
 
@@ -92,15 +99,22 @@ public class ResponseMsgUtil {
 	/**
 	 * 参数不能为空
 	 */
-	public static Result paramsCanNotEmpty() {
-		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_PARAMS_CANT_NOT_EMPTY.getCode(), ResponseStatusCodeEnum.RESULT_CODE_PARAMS_CANT_NOT_EMPTY.getMsg(), null);
+	public static Result paramsCanNotEmpty(String parameterType, String parameterName) {
+		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_PARAMS_CANT_NOT_EMPTY.getCode(), String.format("[%s] parameter [%s] can not be null or empty", parameterType, parameterName), null);
 	}
 
 	/**
 	 * 无操作权限
 	 */
 	public static Result noAuthorized() {
-		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getCode(), ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getMsg(), null);
+		return noAuthorized(ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getMsg());
+	}
+
+	/**
+	 * 无操作权限
+	 */
+	public static Result noAuthorized(String msg) {
+		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getCode(), msg, null);
 	}
 
 	/**
