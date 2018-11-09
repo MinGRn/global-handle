@@ -12,6 +12,6 @@ public class NotLoginException extends ServiceException {
 
 	@Override
 	public String getMessage() {
-		return "You are not logged in.Please login now or register if you do not have an account";
+		return "You are not logged in, Please login now or register if you do not have an account";
 	}
 }
