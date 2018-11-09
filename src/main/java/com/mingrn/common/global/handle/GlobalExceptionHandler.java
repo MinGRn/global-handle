@@ -1,5 +1,6 @@
 package com.mingrn.common.global.handle;
 
+import com.mingrn.common.global.exception.NoOperateAuthorityException;
 import com.mingrn.common.global.exception.NotLoginException;
 import com.mingrn.common.global.exception.ParamIsNotNullException;
 import com.mingrn.common.global.result.ResponseMsgUtil;
@@ -71,37 +72,41 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	/**
 	 * 未登录异常
 	 *
-	 * @see ResponseMsgUtil#notLogin()
+	 * @see ResponseMsgUtil#notLogin(String)
 	 */
 	@ExceptionHandler(NotLoginException.class)
 	public Result notLoginException(HttpServletRequest request, HttpServletResponse response, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
-		return ResponseMsgUtil.notLogin();
+		return ResponseMsgUtil.notLogin(e.getMessage());
 	}
 
 	/**
 	 * 参数不能为空异常
 	 *
-	 * @see ResponseMsgUtil#paramsCanNotEmpty()
+	 * @see ResponseMsgUtil#paramsCanNotEmpty(String, String)
 	 */
 	@ExceptionHandler(ParamIsNotNullException.class)
 	public Result paramIsNotNullException(HttpServletRequest request, HttpServletResponse response, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
-		return ResponseMsgUtil.paramsCanNotEmpty();
+		return ResponseMsgUtil.paramsCanNotEmpty("", "");
 	}
 
 	/**
-	 * 非法参数、访问请求
-	 * @see ResponseMsgUtil#illegalRequest(String)
+	 * 无操作权限异常
+	 *
+	 * @see ResponseMsgUtil#notLogin(String)
 	 */
-	@ExceptionHandler({IllegalArgumentException.class,IllegalAccessException.class})
-	public Result illegalRequest(HttpServletRequest request, HttpServletResponse response, Exception e){
+	@ExceptionHandler(NoOperateAuthorityException.class)
+	public Result noOperateAuthorityException(HttpServletRequest request, HttpServletResponse response, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
-		return ResponseMsgUtil.illegalRequest();
+		return ResponseMsgUtil.noAuthorized(e.getMessage());
 	}
+
 
 	/**
 	 * 重写/error请求
+	 *
+	 * @see org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "${server.error.path:${error.path:/error}}")
