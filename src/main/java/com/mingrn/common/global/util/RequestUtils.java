@@ -3,6 +3,8 @@ package com.mingrn.common.global.util;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * Request 请求工具类
+ *
  * @author MinGRn <br > MinGRn97@gmail.com
  */
 public class RequestUtils {
