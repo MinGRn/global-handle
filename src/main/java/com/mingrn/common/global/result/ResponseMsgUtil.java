@@ -12,6 +12,7 @@ public class ResponseMsgUtil {
 	private ResponseMsgUtil() {
 	}
 
+
 	/**
 	 * 统一返回结果
 	 */
@@ -23,12 +24,14 @@ public class ResponseMsgUtil {
 		return res;
 	}
 
+
 	/**
 	 * 请求失败
 	 */
 	public static <T> Result<T> failure() {
 		return failure(ResponseStatusCodeEnum.RESULT_CODE_FAILURE.getMsg());
 	}
+
 
 	/**
 	 * 请求失败
@@ -37,12 +40,14 @@ public class ResponseMsgUtil {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_FAILURE.getCode(), msg, null);
 	}
 
+
 	/**
 	 * 请求成功
 	 */
 	public static <T> Result<T> success(T data) {
 		return success(ResponseStatusCodeEnum.RESULT_CODE_SUCCESS.getMsg(), data);
 	}
+
 
 	/**
 	 * 请求成功
@@ -59,6 +64,7 @@ public class ResponseMsgUtil {
 		return illegalRequest(ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getMsg());
 	}
 
+
 	/**
 	 * 非法请求
 	 */
@@ -66,12 +72,14 @@ public class ResponseMsgUtil {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_ILLEGAL_REQUEST.getCode(), msg, null);
 	}
 
+
 	/**
 	 * 未登录
 	 */
 	public static Result notLogin() {
 		return notLogin(ResponseStatusCodeEnum.RESULT_CODE_NOT_LOGIN.getMsg());
 	}
+
 
 	/**
 	 * 未登录
@@ -88,6 +96,7 @@ public class ResponseMsgUtil {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_USER_OR_PASSWORD_ERROR.getCode(), ResponseStatusCodeEnum.RESULT_CODE_USER_OR_PASSWORD_ERROR.getMsg(), null);
 	}
 
+
 	/**
 	 * 密码错误次数已达上限
 	 */
@@ -103,12 +112,14 @@ public class ResponseMsgUtil {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_PARAMS_CANT_NOT_EMPTY.getCode(), String.format("[%s] parameter [%s] can not be null or empty", parameterType, parameterName), null);
 	}
 
+
 	/**
 	 * 无操作权限
 	 */
 	public static Result noAuthorized() {
 		return noAuthorized(ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getMsg());
 	}
+
 
 	/**
 	 * 无操作权限
@@ -117,12 +128,14 @@ public class ResponseMsgUtil {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NO_AUTHORIZED.getCode(), msg, null);
 	}
 
+
 	/**
 	 * 结果不存在或空集合
 	 */
 	public static Result resultIsEmptyOrNotExist() {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_RESULT_IS_EMPTY.getCode(), ResponseStatusCodeEnum.RESULT_CODE_RESULT_IS_EMPTY.getMsg(), null);
 	}
+
 
 	/**
 	 * 404
@@ -131,12 +144,14 @@ public class ResponseMsgUtil {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_NOT_FOUND.getCode(), ResponseStatusCodeEnum.RESULT_CODE_NOT_FOUND.getMsg(), null);
 	}
 
+
 	/**
 	 * 500 错误
 	 */
 	public static Result internalServerErr() {
 		return builderResponse(ResponseStatusCodeEnum.RESULT_CODE_INTERNAL_SERVER_ERR.getCode(), ResponseStatusCodeEnum.RESULT_CODE_INTERNAL_SERVER_ERR.getMsg(), null);
 	}
+
 
 	/**
 	 * 业务异常
