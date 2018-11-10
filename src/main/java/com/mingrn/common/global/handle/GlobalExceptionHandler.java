@@ -6,6 +6,7 @@ import com.mingrn.common.global.exception.ParamIsNotNullException;
 import com.mingrn.common.global.result.ResponseMsgUtil;
 import com.mingrn.common.global.result.Result;
 import com.mingrn.common.global.util.RequestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 全局异常处理
@@ -28,11 +31,42 @@ import javax.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler extends AbstractErrorController {
 
+
 	public GlobalExceptionHandler(ErrorAttributes errorAttributes) {
 		super(errorAttributes);
 	}
 
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+
+	/**
+	 * 匹配中括号字符正则表达式,遇空格返回
+	 * e.g:
+	 * String str = "request [class java.lang.String] parameter [name] must not be empty or null";
+	 * result:
+	 * matcher1: java.lang.String
+	 * matcher2: name
+	 */
+	private static final String REGEX_BRACKET_CHARACTER = "[^\\[\\s]+(?=])";
+
+
+	/**
+	 * 匹配中括号全部字符正则表达式
+	 * e.g:
+	 * String str = "request [class java.lang.String] parameter [name] must not be empty or null";
+	 * result:
+	 * matcher1: class java.lang.String
+	 * matcher2: name
+	 */
+	private static final String REGEX_BRACKET_ALL_CHARACTER = "[^\\[]+(?=])";
+
+
+	/**
+	 * 正则匹配
+	 */
+	private static final Pattern PATTERN_BRACKET_CHARACTER_EXTRACTIONS = Pattern.compile(REGEX_BRACKET_CHARACTER, Pattern.MULTILINE);
+
 
 	/**
 	 * ${server.error.path:${error.path:/error}}释义:
@@ -44,6 +78,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	@Value("${server.error.path:${error.path:/error}}")
 	private static String errorPath = "/error";
 
+
 	/**
 	 * 404 错误
 	 *
@@ -51,10 +86,11 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	 */
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler(NoHandlerFoundException.class)
-	public Result noHandlerFoundException(HttpServletRequest request, HttpServletResponse response, Exception e) {
+	public Result noHandlerFoundException(HttpServletRequest request, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception:{}", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.requestNotFound();
 	}
+
 
 	/**
 	 * 500 错误,内部服务器异常
@@ -63,7 +99,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	 */
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
-	public Result serverError(HttpServletRequest request, HttpServletResponse response, Exception e) {
+	public Result serverError(HttpServletRequest request, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception:{}", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.internalServerErr();
 	}
@@ -75,29 +111,43 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	 * @see ResponseMsgUtil#notLogin(String)
 	 */
 	@ExceptionHandler(NotLoginException.class)
-	public Result notLoginException(HttpServletRequest request, HttpServletResponse response, Exception e) {
+	public Result notLoginException(HttpServletRequest request, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.notLogin(e.getMessage());
 	}
 
+
 	/**
 	 * 参数不能为空异常
+	 * 使用正则表达式匹配中括号字符
+	 * 规则表达式{@link GlobalExceptionHandler#REGEX_BRACKET_CHARACTER}
 	 *
 	 * @see ResponseMsgUtil#paramsCanNotEmpty(String, String)
 	 */
 	@ExceptionHandler(ParamIsNotNullException.class)
-	public Result paramIsNotNullException(HttpServletRequest request, HttpServletResponse response, Exception e) {
+	public Result paramIsNotNullException(HttpServletRequest request, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
-		return ResponseMsgUtil.paramsCanNotEmpty("", "");
+		// 匹配中括号字符,作为参数类型与参数名
+		String parameterType = null, parameterName = null;
+		final Matcher matcher = PATTERN_BRACKET_CHARACTER_EXTRACTIONS.matcher(e.getMessage());
+		while (matcher.find()) {
+			if (StringUtils.isBlank(parameterType)) {
+				parameterType = matcher.group(0);
+			} else {
+				parameterName = matcher.group(0);
+			}
+		}
+		return ResponseMsgUtil.paramsCanNotEmpty(parameterType, parameterName);
 	}
+
 
 	/**
 	 * 无操作权限异常
 	 *
-	 * @see ResponseMsgUtil#notLogin(String)
+	 * @see ResponseMsgUtil#noAuthorized(String)
 	 */
 	@ExceptionHandler(NoOperateAuthorityException.class)
-	public Result noOperateAuthorityException(HttpServletRequest request, HttpServletResponse response, Exception e) {
+	public Result noOperateAuthorityException(HttpServletRequest request, Exception e) {
 		LOGGER.error("!!! request uri:{} from {} server exception", request.getRequestURI(), RequestUtils.getIpAddress(request), e);
 		return ResponseMsgUtil.noAuthorized(e.getMessage());
 	}
@@ -105,6 +155,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 
 	/**
 	 * 重写/error请求
+	 * {@link GlobalExceptionHandler#errorPath}
 	 *
 	 * @see org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
 	 */
@@ -113,7 +164,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
 	public Result<String> handleErrors(HttpServletRequest request, HttpServletResponse response) {
 		HttpStatus status = getStatus(request);
 		if (status == HttpStatus.NOT_FOUND) {
-			return noHandlerFoundException(request, response, null);
+			return noHandlerFoundException(request, null);
 		}
 		return ResponseMsgUtil.internalServerErr();
 	}
