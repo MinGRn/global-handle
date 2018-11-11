@@ -15,6 +15,8 @@
 		<deploy.host>localhost</deploy.host>
 		<!--JDK Version-->
 		<java.version>1.8</java.version>
+		<!--Swagger2 Version-->
+		<swagger2.version>2.7.0</swagger2.version>
 		<!--Fast Json Version-->
 		<fastjson.version>1.2.47</fastjson.version>
 		<!--Common.lang3 Version-->
@@ -76,6 +78,18 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${common.lang3.version}</version>
+		</dependency>
+
+		<!--swagger2-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger2.version}</version>
 		</dependency>
 
 	</dependencies>
